@@ -206,23 +206,39 @@ void loop()
   }
 
   // Obtain a pointer to the output tensor
-  TfLiteTensor *output = interpreter->output(0);
-  float output_scale = output->params.scale;
-  int output_zero_point = output->params.zero_point;
-  int max_idx = 0;
-  float max_result = 0.0;
-  // Dequantize output values and find the max
-  printf("Categories: ");
-  for (int i = 0; i < kCategoryCount; i++)
-  {
-    float current_result = (tflite::GetTensorData<int8_t>(output)[i] - output_zero_point) * output_scale;
-    printf(" %s: %.2f ", kCategoryLabels[i], current_result);
+TfLiteTensor *output = interpreter->output(0);
+float output_scale = output->params.scale;
+int output_zero_point = output->params.zero_point;
+int max_idx = 0;
+float max_result = -FLT_MAX; // Start with the smallest possible float
+
+// Dequantize output values and find the max
+printf("Categories: ");
+for (int i = 0; i < kCategoryCount; i++)
+{
+    float current_result = static_cast<float>(tflite::GetTensorData<int8_t>(output)[i] - output_zero_point) * output_scale;
     if (current_result > max_result)
     {
-      max_result = current_result; // update max result
-      max_idx = i;                 // update category
+        max_result = current_result; // update max result
+        max_idx = i;                 // update index of max result
     }
-  }
+}
+
+// Print the results with the maximum result in red
+for (int i = 0; i < kCategoryCount; i++)
+{
+    float current_result = static_cast<float>(tflite::GetTensorData<int8_t>(output)[i] - output_zero_point) * output_scale;
+    if (i == max_idx)
+    {
+        // Print the maximum result in red
+        printf(" \033[31m%s: %.2f\033[0m ", kCategoryLabels[i], current_result);
+    }
+    else
+    {
+        // Print other results in default color
+        printf(" %s: %.2f ", kCategoryLabels[i], current_result);
+    }
+}
 
   if (max_result > 0.85f)
   {
