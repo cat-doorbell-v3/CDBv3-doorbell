@@ -16,6 +16,9 @@ limitations under the License.
 #ifndef TENSORFLOW_LITE_MICRO_EXAMPLES_MICRO_SPEECH_MAIN_FUNCTIONS_H_
 #define TENSORFLOW_LITE_MICRO_EXAMPLES_MICRO_SPEECH_MAIN_FUNCTIONS_H_
 
+#include "freertos/FreeRTOS.h"
+#include "freertos/queue.h"
+
 // Expose a C friendly interface for main functions.
 #ifdef __cplusplus
 extern "C" {
@@ -33,6 +36,7 @@ void loop();
 float ComputeMean(const int8_t* data, int length);
 float ComputeStdDev(const int8_t* data, int length, float mean);
 
+extern QueueHandle_t catHeardQueue;
 
 #ifdef __cplusplus
 }
