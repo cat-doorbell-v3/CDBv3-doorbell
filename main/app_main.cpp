@@ -2,6 +2,10 @@
 #include "who_camera.h"
 #include "who_cat_face_detection.hpp"
 
+#include "config_manager.h"
+#include "wifi_manager.h"
+
+
 static QueueHandle_t xQueueAIFrame = NULL;
 static QueueHandle_t xQueueResult = NULL;  // Queue to receive detection results
 
