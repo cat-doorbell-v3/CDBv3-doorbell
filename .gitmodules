@@ -4,3 +4,6 @@
 [submodule "components/config_manager"]
 	path = components/config_manager
 	url = https://github.com/esp32-components/config_manager
+[submodule "components/time_manager"]
+	path = components/time_manager
+	url = https://github.com/esp32-components/time_manager
