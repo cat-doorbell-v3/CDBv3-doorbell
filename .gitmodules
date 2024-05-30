@@ -13,3 +13,6 @@
 [submodule "components/syslog_manager"]
 	path = components/syslog_manager
 	url = https://github.com/esp32-components/syslog_manager
+[submodule "components/coredump_manager"]
+	path = components/coredump_manager
+	url = https://github.com/esp32-components/coredump_manager.git
