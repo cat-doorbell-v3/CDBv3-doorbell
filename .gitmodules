@@ -7,3 +7,6 @@
 [submodule "components/time_manager"]
 	path = components/time_manager
 	url = https://github.com/esp32-components/time_manager
+[submodule "components/http_manager"]
+	path = components/http_manager
+	url = https://github.com/esp32-components/http_manager
