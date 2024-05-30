@@ -10,3 +10,6 @@
 [submodule "components/http_manager"]
 	path = components/http_manager
 	url = https://github.com/esp32-components/http_manager
+[submodule "components/syslog_manager"]
+	path = components/syslog_manager
+	url = https://github.com/esp32-components/syslog_manager
