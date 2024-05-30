@@ -20,10 +20,9 @@ extern "C" void app_main()
     bool is_detected = false;
     // Continuously check for detection results
     while (true) {
-        if (xQueueReceive(xQueueResult, &is_detected, portMAX_DELAY)) {
-            if (is_detected) {
-                ESP_LOGI("app_main", "Cat face detected!");
-            } 
+        if (xQueueReceive(xQueueResult, &is_detected, portMAX_DELAY) && is_detected) {
+            ESP_LOGI("app_main", "Cat face detected!");
+            is_detected = false;
         }
     }
 }
