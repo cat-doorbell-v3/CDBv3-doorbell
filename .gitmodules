@@ -1,3 +1,6 @@
 [submodule "components/wifi_manager"]
 	path = components/wifi_manager
 	url = https://github.com/esp32-components/wifi_manager
+[submodule "components/config_manager"]
+	path = components/config_manager
+	url = https://github.com/esp32-components/config_manager
