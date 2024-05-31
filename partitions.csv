@@ -1,0 +1,8 @@
+# Name,   Type, Subtype, Offset,  Size
+nvs,      data, nvs,     0x9000,  20K
+otadata,  data, ota,     ,        8K
+app0,     app,  ota_0,   ,        2M
+app1,     app,  ota_1,   ,        2M
+spiffs,   data, spiffs,  ,        256K
+coredump, data, coredump, ,       64K
+logs,     data, spiffs,  ,        128K
