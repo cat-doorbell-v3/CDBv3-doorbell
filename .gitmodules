@@ -1,0 +1,3 @@
+[submodule "components/config_manager"]
+	path = components/config_manager
+	url = https://github.com/gamename-esp32-components/config_manager
