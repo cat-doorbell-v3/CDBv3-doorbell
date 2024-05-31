@@ -3,16 +3,20 @@
 #include "who_cat_face_detection.hpp"
 
 #include "nvs_flash.h"
+#include "esp_timer.h"
 
 #include "config_manager.h"
 #include "wifi_manager.h"
+#include "http_manager.h"
 
 #define LOG_TAG "app_main"
+#define TEN_MINUTES_MICROSECONDS 600000000L // 10 minutes in microseconds
 
 static QueueHandle_t xQueueAIFrame = NULL;
 static QueueHandle_t xQueueResult = NULL;  // Queue to receive detection results
 std::string doorbellRingUrl = "";
 int connection_attempts = 0;
+int64_t last_post_time = -TEN_MINUTES_MICROSECONDS;  // Initialize to a value that ensures the first detection is processed
 
 extern "C" void app_main()
 {
@@ -64,6 +68,8 @@ extern "C" void app_main()
     }
     ESP_LOGI(LOG_TAG,"WiFi connected");
 
+    HttpManager& httpManager = HttpManager::getInstance();
+
     xQueueAIFrame = xQueueCreate(2, sizeof(camera_fb_t *));
     xQueueResult = xQueueCreate(1, sizeof(bool));  // Create a queue for boolean results
 
@@ -75,6 +81,18 @@ extern "C" void app_main()
     while (true) {
         if (xQueueReceive(xQueueResult, &is_detected, portMAX_DELAY) && is_detected) {
             ESP_LOGI("app_main", "Cat face detected!");
+
+            // Get the current time in microseconds
+            int64_t current_time = esp_timer_get_time();
+
+            // Check if at least 10 minutes have passed since the last post
+            if (current_time - last_post_time >= TEN_MINUTES_MICROSECONDS) {
+                httpManager.postToAwsApiGateway(doorbellRingUrl, "");
+                last_post_time = current_time;  // Update the last post time
+            } else {
+                ESP_LOGI("app_main", "Detection ignored, less than 10 minutes since last notification.");
+            }
+
             is_detected = false;
         }
     }

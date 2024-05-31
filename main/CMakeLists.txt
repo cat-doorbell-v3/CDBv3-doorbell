@@ -5,6 +5,7 @@ idf_component_register(
    REQUIRES 
       config_manager 
       wifi_manager
+      http_manager
    PRIV_REQUIRES 
       modules
 )
