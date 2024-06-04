@@ -22,6 +22,7 @@ Todo: Show real-time video feed on the display (possible?)
 
 static QueueHandle_t xQueueAIFrame = NULL;
 static QueueHandle_t xQueueResult = NULL;  // Queue to receive detection results
+
 std::string doorbellRingUrl = "";
 int connection_attempts = 0;
 int64_t last_post_time = -TEN_MINUTES_MICROSECONDS;  // Initialize to a value that ensures the first detection is processed
