@@ -11,7 +11,6 @@
 
 /*
 Todo: Save snapshot to SD card on positive detection
-Todo: Use mac address for identification
 Todo: Include hostname in the POST request
 Todo: Show a message on the display when a cat face is detected or maybe the snapshot?
 Todo: Add a button to the device to manually trigger the doorbell ring?
@@ -96,7 +95,7 @@ extern "C" void app_main()
 
             // Check if at least 10 minutes have passed since the last post
             if (int64_t current_time = esp_timer_get_time(); current_time - last_post_time >= TEN_MINUTES_MICROSECONDS) {
-                httpManager.postToAwsApiGateway(doorbellRingUrl, "");
+                httpManager.postToAwsApiGateway(doorbellRingUrl, hostName.c_str());
                 last_post_time = current_time;  // Update the last post time
             } else {
                 ESP_LOGI("app_main", "Detection ignored, less than 10 minutes since last notification.");
